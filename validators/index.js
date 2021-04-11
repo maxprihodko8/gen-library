@@ -1,6 +1,6 @@
 import letters from "./letters.js";
 import prefix from "./prefix.js";
-import isString from "./string";
+import isString from "./string.js";
 
 /**
  * Validates that the string is valid gen
