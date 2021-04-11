@@ -1,5 +1,6 @@
 import {GEN_PREFIX} from "../index.js";
 import isValidGen from "../validators/index.js";
+import md5 from 'md5';
 
 /**
  * Strategy file which defines how the defined gens are saved and how are they found
@@ -13,6 +14,7 @@ export default class GenStrategy {
       throw new Error('Please set the stream');
     }
 
+    let waitingForSave = [];
     let tail = '';
     let index = 0;
     for await (const chunk of stream) {
@@ -28,8 +30,7 @@ export default class GenStrategy {
         const gen = string.slice(index, nextIndex);
 
         if (isValidGen(gen)) {
-          this.add(gen)
-            .catch(e => console.log(e));
+          waitingForSave.push(md5(gen));
         }
 
         index = nextIndex;
@@ -37,20 +38,28 @@ export default class GenStrategy {
       }
 
       tail = string.slice(index);
+
+      if (waitingForSave.length > 100) {
+        await this.add(waitingForSave);
+        waitingForSave = [];
+      }
     }
 
     if (isValidGen(tail)) {
-      this.add(tail)
-        .catch(e => console.log(e));
+      waitingForSave.push(tail);
+    }
+
+    if (waitingForSave.length) {
+      await this.add(waitingForSave);
     }
   }
 
   /**
    * Adds the gen to the list of existing
-   * @param gen
+   * @param {Array} gens
    * @return {Promise}
    */
-  add(gen) {
+  add(gens) {
     return new Promise(() => {});
   }
 
@@ -59,5 +68,7 @@ export default class GenStrategy {
    * @param gen
    * @return {Promise<void>}
    */
-  has(gen) {}
+  has(gen) {
+    return false;
+  }
 }
