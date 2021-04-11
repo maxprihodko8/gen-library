@@ -37,13 +37,13 @@ export default class GenStrategy {
 
         index = nextIndex;
         nextIndex = string.indexOf(GEN_PREFIX, index + 1);
+
+        if (this._waitingForSave.length >= BATCH_SIZE) {
+          await this._save();
+        }
       }
 
       tail = string.slice(index);
-
-      if (this._waitingForSave.length > BATCH_SIZE) {
-        await this._save();
-      }
     }
 
     if (isValidGen(tail)) {
