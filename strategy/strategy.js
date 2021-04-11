@@ -1,6 +1,8 @@
 import {GEN_PREFIX} from "../index.js";
 import isValidGen from "../validators/index.js";
 
+const BATCH_SIZE = 100;
+
 /**
  * Strategy file which defines how the defined gens are saved and how are they found
  */
@@ -10,7 +12,7 @@ export default class GenStrategy {
   }
 
   /**
-   * Read from the stream
+   * Read from the stream, found gens, add to batch and save if the batch is more than BATCH_SIZE
    */
   async read(stream) {
     if (!stream) {
@@ -39,7 +41,7 @@ export default class GenStrategy {
 
       tail = string.slice(index);
 
-      if (this._waitingForSave.length > 100) {
+      if (this._waitingForSave.length > BATCH_SIZE) {
         await this._save();
       }
     }
