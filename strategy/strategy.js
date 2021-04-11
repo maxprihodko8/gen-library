@@ -1,11 +1,14 @@
 import {GEN_PREFIX} from "../index.js";
 import isValidGen from "../validators/index.js";
-import md5 from 'md5';
 
 /**
  * Strategy file which defines how the defined gens are saved and how are they found
  */
 export default class GenStrategy {
+  constructor() {
+    this._waitingForSave = [];
+  }
+
   /**
    * Read from the stream
    */
@@ -14,7 +17,6 @@ export default class GenStrategy {
       throw new Error('Please set the stream');
     }
 
-    let waitingForSave = [];
     let tail = '';
     let index = 0;
     for await (const chunk of stream) {
@@ -29,9 +31,7 @@ export default class GenStrategy {
       while (nextIndex !== -1) {
         const gen = string.slice(index, nextIndex);
 
-        if (isValidGen(gen)) {
-          waitingForSave.push(gen);
-        }
+        this._add(gen);
 
         index = nextIndex;
         nextIndex = string.indexOf(GEN_PREFIX, index + 1);
@@ -39,28 +39,16 @@ export default class GenStrategy {
 
       tail = string.slice(index);
 
-      if (waitingForSave.length > 100) {
-        await this.add(waitingForSave);
-        waitingForSave = [];
+      if (this._waitingForSave.length > 100) {
+        await this._save();
       }
     }
 
     if (isValidGen(tail)) {
-      waitingForSave.push(tail);
+      this._add(tail);
     }
 
-    if (waitingForSave.length) {
-      await this.add(waitingForSave);
-    }
-  }
-
-  /**
-   * Adds the gen to the list of existing
-   * @param {Array} gens
-   * @return {Promise}
-   */
-  add(gens) {
-    return new Promise(() => {});
+    await this._save();
   }
 
   /**
@@ -69,6 +57,25 @@ export default class GenStrategy {
    * @return {Promise<void>}
    */
   has(gen) {
-    return false;
+    return new Promise(() => {return false});
+  }
+
+  /**
+   * Adds the gen to the list of existing
+   * @param {string} gen
+   */
+  _add(gen) {
+    if (isValidGen(gen)) {
+      this._waitingForSave.push(gen);
+    }
+  }
+
+  /**
+   * Saves the batch
+   * @return {Promise}
+   */
+  _save() {
+    this._waitingForSave = [];
+    return new Promise((resolve) => {resolve()});
   }
 }

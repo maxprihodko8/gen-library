@@ -21,27 +21,29 @@ export default class RedisStrategy extends GenStrategy {
   }
 
   /**
-   * Adds gen to the Redis, saves md5 of the gen as the key
-   * @param {Array} gens
-   * @return {Promise}
-   */
-  add(gens) {
-    const query = [];
-
-    gens.forEach(gen => {
-      query.push(md5(gen));
-      query.push(1);
-    });
-
-    return this._client.msetAsync(query);
-  }
-
-  /**
    * Finds if the gen exists, use md5 of the gen as the key
    * @param gen
    * @return {Promise<void>}
    */
   async has(gen) {
     return this._client.getAsync(md5(gen));
+  }
+
+  /**
+   * Saves the batch to the Redis
+   * @return {Promise}
+   * @private
+   */
+  _save() {
+    const query = [];
+
+    this._waitingForSave.forEach(gen => {
+      query.push(md5(gen));
+      query.push(1);
+    });
+
+    this._waitingForSave = [];
+
+    return this._client.msetAsync(query);
   }
 }
