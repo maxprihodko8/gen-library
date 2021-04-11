@@ -9,6 +9,7 @@ export default class RedisStrategy extends GenStrategy {
 
     this._client = redis.createClient();
     this._client.getAsync = promisify(this._client.get).bind(this._client);
+    this._client.setAsync = promisify(this._client.set).bind(this._client);
 
     this._client.on("error", function(error) {
       console.error(error);
@@ -18,10 +19,10 @@ export default class RedisStrategy extends GenStrategy {
   /**
    *
    * @param gen
-   * @return {*}
+   * @return {Promise}
    */
   add(gen) {
-    return this._client.set(md5(gen), 1);
+    return this._client.setAsync(md5(gen), 1);
   }
 
   /**

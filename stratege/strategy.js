@@ -10,10 +10,10 @@ export default class GenStrategy {
       throw new Error('Please set the stream');
     }
 
-    let result = '';
+    let tail = '';
     let index = 0;
     for await (const chunk of stream) {
-      const string = (result ? result : '') + chunk.toString();
+      const string = (tail || '') + chunk.toString();
 
       if (index === 0) {
         index = chunk.indexOf(GEN_PREFIX);
@@ -33,7 +33,12 @@ export default class GenStrategy {
         nextIndex = string.indexOf(GEN_PREFIX, index + 1);
       }
 
-      result = string.slice(index);
+      tail = string.slice(index);
+    }
+
+    if (isValidGen(tail)) {
+      this.add(tail)
+        .catch(e => console.log(e));
     }
   }
 
@@ -42,7 +47,9 @@ export default class GenStrategy {
    * @param gen
    * @return {Promise}
    */
-  add(gen) {}
+  add(gen) {
+    return new Promise(() => {});
+  }
 
   /**
    * Find if the gen exists
