@@ -1,0 +1,14 @@
+{
+  "name": "gen",
+  "version": "1.0.0",
+  "description": "gen library for add new gens and search if there are gens existing",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "max.prihodko8@gmail.com",
+  "license": "ISC",
+  "dependencies": {
+    "redis": "^3.1.0"
+  }
+}
