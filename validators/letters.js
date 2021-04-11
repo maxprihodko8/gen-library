@@ -1,4 +1,4 @@
-import {GEN_PERMITTED_LETTERS} from '../index';
+import {GEN_PERMITTED_LETTERS} from '../index.js';
 
 /**
  * Validates that the gen consists only of needed letters

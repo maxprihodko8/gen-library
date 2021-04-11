@@ -1,4 +1,4 @@
-import isGenValidator from "./validators";
+import isGenValidator from "./validators/index.js";
 
 export const GEN_PREFIX = 'AAAAAAAAAAA';
 export const GEN_PERMITTED_LETTERS = [

@@ -1,4 +1,4 @@
-import {GEN_PREFIX} from "../index";
+import {GEN_PREFIX} from "../index.js";
 
 /**
  * Validates that the gen starts with the required prefix

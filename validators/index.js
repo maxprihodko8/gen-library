@@ -1,5 +1,5 @@
-import letters from "./letters";
-import prefix from "./prefix";
+import letters from "./letters.js";
+import prefix from "./prefix.js";
 
 /**
  * Validates that the string is valid gen

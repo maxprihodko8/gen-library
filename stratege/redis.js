@@ -1,6 +1,6 @@
-import GenStrategy from "./strategy";
+import GenStrategy from "./strategy.js";
 import redis from 'redis';
-import {promisify} from 'promisify';
+import {promisify} from 'util';
 
 export default class RedisStrategy extends GenStrategy {
   constructor(stream) {
