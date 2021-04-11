@@ -29,7 +29,7 @@ export default class RedisStrategy extends GenStrategy {
     const query = [];
 
     gens.forEach(gen => {
-      query.push(gen);
+      query.push(md5(gen));
       query.push(1);
     });
 

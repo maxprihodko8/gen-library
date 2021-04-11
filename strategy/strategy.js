@@ -30,7 +30,7 @@ export default class GenStrategy {
         const gen = string.slice(index, nextIndex);
 
         if (isValidGen(gen)) {
-          waitingForSave.push(md5(gen));
+          waitingForSave.push(gen);
         }
 
         index = nextIndex;
