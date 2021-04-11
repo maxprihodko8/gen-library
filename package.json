@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "gen library for add new gens and search if there are gens existing",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -14,9 +15,12 @@
   "author": "max.prihodko8@gmail.com",
   "license": "ISC",
   "dependencies": {
+    "redis": "^3.1.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.13.14",
     "@babel/core": "^7.13.15",
     "@babel/node": "^7.13.13",
-    "@babel/preset-env": "^7.13.15",
-    "redis": "^3.1.0"
+    "@babel/preset-env": "^7.13.15"
   }
 }
