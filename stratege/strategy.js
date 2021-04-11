@@ -1,4 +1,5 @@
 import {GEN_PREFIX} from "../index.js";
+import isValidGen from "../validators/index.js";
 
 export default class GenStrategy {
   /**
@@ -10,18 +11,38 @@ export default class GenStrategy {
     }
 
     let result = '';
+    let index = 0;
     for await (const chunk of stream) {
-      console.log(chunk);
+      const string = (result ? result : '') + chunk.toString();
 
-     /*  const index = chunk.indexOf(GEN_PREFIX);
+      if (index === 0) {
+        index = chunk.indexOf(GEN_PREFIX);
+      }
 
-      if (index === -1 && (!result || chunk.startsWith(GEN_PREFIX))) {
-        result += chunk;
-      } else if (1) {
+      let nextIndex = string.indexOf(GEN_PREFIX, index);
 
-      } */
+      while (nextIndex !== -1) {
+        const gen = string.slice(index, nextIndex);
+
+        if (isValidGen(gen)) {
+          this.add(gen)
+            .catch(e => console.log(e));
+        }
+
+        index = nextIndex;
+        nextIndex = string.indexOf(GEN_PREFIX, index);
+      }
+
+      result = string.slice(index);
     }
   }
+
+  /**
+   * Adds the gen to the list of existing
+   * @param gen
+   * @return {Promise}
+   */
+  add(gen) {}
 
   /**
    * Find if the gen exists

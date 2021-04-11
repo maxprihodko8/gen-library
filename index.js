@@ -1,4 +1,4 @@
-import isGenValidator from "./validators/index.js";
+import isValidGen from "./validators/index.js";
 
 export const GEN_PREFIX = 'AAAAAAAAAAA';
 export const GEN_PERMITTED_LETTERS = [
@@ -27,7 +27,7 @@ export default class Gen {
    * @return {boolean}
    */
   isGen(gen) {
-    return isGenValidator(gen);
+    return isValidGen(gen);
   }
 
   /**

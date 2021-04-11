@@ -15,6 +15,7 @@
   "author": "max.prihodko8@gmail.com",
   "license": "ISC",
   "dependencies": {
+    "md5": "^2.3.0",
     "redis": "^3.1.0"
   },
   "devDependencies": {

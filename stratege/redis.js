@@ -1,10 +1,11 @@
 import GenStrategy from "./strategy.js";
 import redis from 'redis';
 import {promisify} from 'util';
+import md5 from 'md5';
 
 export default class RedisStrategy extends GenStrategy {
-  constructor(stream) {
-    super(stream);
+  constructor() {
+    super();
 
     this._client = redis.createClient();
     this._client.getAsync = promisify(this._client.get).bind(this._client);
@@ -14,8 +15,13 @@ export default class RedisStrategy extends GenStrategy {
     });
   }
 
-  add(gens) {
-
+  /**
+   *
+   * @param gen
+   * @return {*}
+   */
+  add(gen) {
+    return this._client.set(md5(gen), 1);
   }
 
   /**
@@ -24,6 +30,6 @@ export default class RedisStrategy extends GenStrategy {
    * @return {Promise<void>}
    */
   async has(gen) {
-    return this._client.getAsync(gen);
+    return this._client.getAsync(md5(gen));
   }
 }
