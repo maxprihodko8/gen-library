@@ -19,7 +19,7 @@ export default class GenStrategy {
         index = chunk.indexOf(GEN_PREFIX);
       }
 
-      let nextIndex = string.indexOf(GEN_PREFIX, index);
+      let nextIndex = string.indexOf(GEN_PREFIX, index + 1);
 
       while (nextIndex !== -1) {
         const gen = string.slice(index, nextIndex);
@@ -30,7 +30,7 @@ export default class GenStrategy {
         }
 
         index = nextIndex;
-        nextIndex = string.indexOf(GEN_PREFIX, index);
+        nextIndex = string.indexOf(GEN_PREFIX, index + 1);
       }
 
       result = string.slice(index);
