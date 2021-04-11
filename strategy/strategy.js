@@ -1,6 +1,9 @@
 import {GEN_PREFIX} from "../index.js";
 import isValidGen from "../validators/index.js";
 
+/**
+ * Strategy file which defines how the defined gens are saved and how are they found
+ */
 export default class GenStrategy {
   /**
    * Read from the stream

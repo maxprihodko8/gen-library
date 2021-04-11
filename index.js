@@ -8,10 +8,14 @@ export const GEN_PERMITTED_LETTERS = [
   'T',
 ];
 
+/**
+ * @class Gen
+ * Module which helps to check that the gen is in stream and has validation if the string is gen
+ */
 export default class Gen {
   /**
    * Constructor of Gen
-   * @param {GenStrategy} strategy
+   * @param {GenStrategy} strategy the strategy, on which the gen is found and saved
    */
   constructor(strategy) {
     if (!strategy) {

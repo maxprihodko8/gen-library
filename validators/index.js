@@ -1,12 +1,14 @@
 import letters from "./letters.js";
 import prefix from "./prefix.js";
+import isString from "./string";
 
 /**
  * Validates that the string is valid gen
- * @param gen
- * @return {boolean|*}
+ * @param {string} gen
+ * @return {boolean}
  */
 export default (gen) => {
-  return prefix(gen)
+  return isString(gen)
+    && prefix(gen)
     && letters(gen);
 }

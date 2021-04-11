@@ -3,6 +3,10 @@ import redis from 'redis';
 import {promisify} from 'util';
 import md5 from 'md5';
 
+/**
+ * Add and found gens using the Redis
+ * Use md5 as the key
+ */
 export default class RedisStrategy extends GenStrategy {
   constructor() {
     super();
@@ -17,7 +21,7 @@ export default class RedisStrategy extends GenStrategy {
   }
 
   /**
-   *
+   * Adds gen to the Redis, saves md5 of the gen as the key
    * @param gen
    * @return {Promise}
    */
@@ -26,7 +30,7 @@ export default class RedisStrategy extends GenStrategy {
   }
 
   /**
-   * Finds if the gen exists
+   * Finds if the gen exists, use md5 of the gen as the key
    * @param gen
    * @return {Promise<void>}
    */

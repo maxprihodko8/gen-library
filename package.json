@@ -1,7 +1,7 @@
 {
   "name": "gen",
-  "version": "1.0.1",
-  "description": "gen library for add new gens and search if there are gens existing",
+  "version": "1.0.2",
+  "description": "Gen library that helps work with gens",
   "main": "index.js",
   "type": "module",
   "scripts": {
